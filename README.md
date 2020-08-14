@@ -14,6 +14,10 @@ mv ./motd.system-info.sh /etc/profile.d
 chmod +x /etc/profile.d/motd.system-info.sh
 ```
 
+### Update
+
+Please note the [changelog](https://github.com/bloodhunterd/motd/blob/master/CHANGELOG.md) to check for configuration changes before updating.
+
 ## Authors
 
 * [BloodhunterD](https://github.com/bloodhunterd)
