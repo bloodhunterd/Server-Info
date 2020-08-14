@@ -10,7 +10,7 @@ Simple script for dynamic system information displayed as message of the day ban
 Put the script into **/etc/profile.d/** and make it executeable.
 
 ```
-mv ./system-info.sh /etc/profile.d
+mv ./motd.system-info.sh /etc/profile.d
 chmod +x /etc/profile.d/motd.system-info.sh
 ```
 
