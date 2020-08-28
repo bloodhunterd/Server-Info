@@ -12,7 +12,7 @@ Simple script for dynamic system information displayed as message of the day ban
 Download the script and configuration file.
 
 [![Motd script](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.sh?label=Motd%20script&style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/motd.system-info.sh)
-[![Motd configuration](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.conf?label=Motd%20script&style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/motd.system-info.conf)
+[![Motd configuration](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.conf?label=Motd%20configuration&style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/motd.system-info.conf)
 
 ### Installation
 
