@@ -5,7 +5,7 @@
 
 # Motd
 
-Simple script for dynamic system information displayed as message of the day banner on login.
+Motd is a shell script to display system information as message of the day banner on login.
 
 ## Deployment
 
