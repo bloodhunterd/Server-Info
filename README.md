@@ -1,7 +1,7 @@
 [![Release](https://img.shields.io/github/v/release/bloodhunterd/motd?style=for-the-badge)](https://github.com/bloodhunterd/motd/releases)
 [![License](https://img.shields.io/github/license/bloodhunterd/motd?style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/LICENSE)
 
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P51U5SZ)
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/bloodhunterd)
 
 # Motd
 
@@ -13,14 +13,14 @@ Motd is a shell script to display system information as message of the day banne
 
 Download the script and configuration file.
 
-[![Script](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.sh?label=Script&style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/motd.system-info.sh)
-[![Configuration](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.conf?label=Configuration&style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/motd.system-info.conf)
+[![Script](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.sh?label=Script&style=for-the-badge)](https://github.com/bloodhunterd/motd/raw/master/motd.system-info.sh)
+[![Configuration](https://img.shields.io/github/size/bloodhunterd/motd/motd.system-info.conf?label=Configuration&style=for-the-badge)](https://github.com/bloodhunterd/motd/raw/master/motd.system-info.conf)
 
 ### Installation
 
 Put the script and configuration file into **/etc/profile.d/** and make the script file executeable.
 
-```
+```bash
 mv ./motd.system-info.* /etc/profile.d
 chmod +x /etc/profile.d/motd.system-info.sh
 ```
