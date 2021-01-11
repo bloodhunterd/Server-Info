@@ -28,7 +28,7 @@ chmod +x /etc/profile.d/motd.system-info.sh
 ### Configuration
 
 | Setting | Values | Default | Description
-|--- |--- |--- |---
+| ------- | ------ | ------- | -----------
 | SYSTEM_NAME | Any valid system name | Hostname | The name of the system.
 | DATE_FORMAT | [date - Linux man page](https://linux.die.net/man/1/date) | %x %X | Format of displayed date.
 | INTERFACE | Any valid interface name | eth0 | The interface to show the IP address of.
