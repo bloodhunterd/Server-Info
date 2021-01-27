@@ -1,24 +1,41 @@
 #!/bin/bash
 
-# Get path to script directory
+# ===================================================
+# Script directory path
+# ===================================================
+
 if [ -n "${BASH_SOURCE[0]}" ]; then
   DIR=$(dirname "${BASH_SOURCE[0]}")
 elif [ -n "${0}" ]; then
   DIR=$(dirname "$(readlink -f "$0")")
 fi
 
-# Include config
+# ===================================================
+# Configuration file
+# ===================================================
+
 . "${DIR}/motd.system-info.conf"
 
-# Fallbacks
-if [ -z ${SYSTEM_NAME+x} ]; then
-    SYSTEM_NAME=`hostname`
-fi
+# ===================================================
+# Configuration fallbacks
+# ===================================================
+
 if [ -z ${DATE_FORMAT+x} ]; then
-    DATE_FORMAT="%x %X"
+  DATE_FORMAT="%x %X"
 fi
+
 if [ -z ${INTERFACE+x} ]; then
-    INTERFACE="eth0"
+  INTERFACE="eth0"
+fi
+
+# ===================================================
+# Values preparation
+# ===================================================
+
+if [ -z ${SYSTEM_NAME+x} ]; then
+  SYSTEM_NAME=`hostname`
+else
+  SYSTEM_NAME+=" (${HOSTNAME})"
 fi
 
 DATE=`date +"${DATE_FORMAT}"`
@@ -54,11 +71,19 @@ DISK_USAGE_PERCENT=`df -h --total | grep "total" | awk '{print $5}'`
 
 IP_ADDRESS=`ip addr show ${INTERFACE} | grep -oP '(?<=inet\s)\d+(\.\d+){3}'`
 
+# ===================================================
+# Colors
+# ===================================================
+
 COLOR_DEFAULT="\033[0m"
 COLOR_INFO="\033[1;34m"
 COLOR_VALUE="\033[1;32m"
 COLOR_HEAD="\033[1;33m"
 COLOR_HEADLINE="\033[1;31m"
+
+# ===================================================
+# Output
+# ===================================================
 
 printf "\n"
 printf " ${COLOR_HEAD}${SYSTEM_NAME}\n\n"
