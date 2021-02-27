@@ -2,12 +2,19 @@
 
 All notable changes will be documented in this file.
 
+<a name="v1-0-0"></a>
+## [1.0.0](https://github.com/bloodhunterd/motd/releases/tag/1.0.0) &#9839; 27.02.2021
+
+* Added detection of network interfaces
+* Fixed issue #4 Support multiple network interfaces
+* Fixed issue #3 Show hostname
+
 <a name="v0-2-0"></a>
 ## [0.2.0](https://github.com/bloodhunterd/motd/releases/tag/0.2.0) &#9839; 28.08.2020
 
 * Adjustable by configuration system name and date format added.
-* Issue #2 No CPU core speed on Raspberry Pi fixed
-* Issue #1 No IP address on Ubuntu fixed
+* Fixed issue #2 No CPU core speed on Raspberry Pi
+* Fixed issue #1 No IP address on Ubuntu
 
 <a name="v0-1-0"></a>
 ## [0.1.0](https://github.com/bloodhunterd/motd/releases/tag/0.1.0) &#9839; 14.08.2020
