@@ -98,7 +98,7 @@ DISK_USAGE_PERCENT=$(df -h --total | grep "total" | awk '{print $5}')
 # Network
 # ===================================================
 
-mapfile -t INTERFACES < <(ip -o link show | awk -F': ' '{print $2}')
+mapfile -t INTERFACES < <(ip -o link show | awk -F': ' '{print $2}' | grep -v -E "lo|veth")
 
 # IP V4
 for INTERFACE in "${INTERFACES[@]}"
