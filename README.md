@@ -5,31 +5,32 @@
 
 # MotD
 
-MotD displays system information as message of the day banner at user login.
+MotD displays system information as *Message of the Day banner* at user login.
 
 ## Deployment
 
-Place the script under **/etc/profile.d/** and make is executable.
+The script `motd.system-info.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time the user logs on.
 
-~~~bash
-mv ./motd.system-info.sh /etc/profile.d
-chmod +x /etc/profile.d/motd.system-info.sh
-~~~
+### Requirements
+
+If not already installed, the `dnsutils` package is needed to resolve IP to FQDN.
 
 ## Configuration
 
-To customize the displayed information create a file named **motd.system-info.conf** in the same folder.
+MotD can be customized. All that is required is to create a file with the name `motd.system-info.conf`.
 
-| Setting | Values | Default | Description
-| ------- | ------ | ------- | -----------
-| SYSTEM_NAME | Text | Hostname | The name of the system.
-| DATE_FORMAT | [date - Linux man page](https://linux.die.net/man/1/date) | %x %X | Format of displayed date.
+The following settings are possible:
+
+| Setting | Default | Description
+| ------- | ------- | -----------
+| DATE_FORMAT | `%x %X` | Date format. See [date - Linux man page](https://linux.die.net/man/1/date).
+| SYSTEM_NAME | `hostname` | The name of the system. If no name is specified, the hostname is displayed.
 
 ### Example
 
-~~~bash
-SYSTEM_NAME="My system"
+~~~shell
 DATE_FORMAT="%x %X"
+SYSTEM_NAME="My system"
 ~~~
 
 ## Update
@@ -43,3 +44,6 @@ Please note the [changelog](https://github.com/bloodhunterd/motd/blob/master/CHA
 ## License
 
 This project is licensed under the MIT - see [LICENSE.md](https://github.com/bloodhunterd/motd/blob/master/LICENSE) file for details.
+
+*[IP]: Internet Protocol
+*[FQDN]: Fully Qualified Domain Name
