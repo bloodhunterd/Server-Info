@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+<a name="v1.1.0"></a>
+## [1.1.0](https://github.com/bloodhunterd/motd/releases/tag/1.1.0) &#9839; 12.01.2023
+
+* Added space listing which shows details of internal and external drives.
+* Overworked GUI
+
 <a name="v1.0.1"></a>
 ## [1.0.1](https://github.com/bloodhunterd/motd/releases/tag/1.0.1) &#9839; 25.05.2021
 

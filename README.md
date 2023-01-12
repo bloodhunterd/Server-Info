@@ -21,10 +21,10 @@ MotD can be customized. All that is required is to create a file with the name `
 
 The following settings are possible:
 
-| Setting | Default | Description
-| ------- | ------- | -----------
-| DATE_FORMAT | `%x %X` | Date format. See [date - Linux man page](https://linux.die.net/man/1/date).
-| SYSTEM_NAME | `hostname` | The name of the system. If no name is specified, the hostname is displayed.
+| Setting     | Default    | Description                                                                 |
+|-------------|------------|-----------------------------------------------------------------------------|
+| DATE_FORMAT | `%x %X`    | Date format. See [date - Linux man page](https://linux.die.net/man/1/date). |
+| SYSTEM_NAME | `hostname` | The name of the system. If no name is specified, the hostname is displayed. |
 
 ### Example
 

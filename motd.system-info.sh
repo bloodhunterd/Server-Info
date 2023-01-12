@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This file ist part of the MotD project, see https://github.com/bloodhunterd/MotD.
-# © 2021 BloodhunterD <bloodhunterd@bloodhunterd.com>
+# © 2023 by BloodhunterD <bloodhunterd@bloodhunterd.com>
 
 # ===================================================
 # Script directory path
@@ -31,11 +31,13 @@ fi
 # Colors
 # ===================================================
 
-COLOR_DEFAULT="\033[0m"
-COLOR_INFO="\033[1;34m"
-COLOR_VALUE="\033[1;32m"
-COLOR_HEAD="\033[1;33m"
-COLOR_HEADLINE="\033[1;31m"
+CD="\033[0m"    # Default
+CR="\033[1;31m" # Red
+CG="\033[0;32m" # Green
+CY="\033[1;33m" # Yellow
+CB="\033[1;34m" # Blue
+CM="\033[3;35m" # Magenta
+CC="\033[3;36m" # Cyan
 
 # ===================================================
 # OS
@@ -94,6 +96,22 @@ DISK_TOTAL=$(df -h --total | grep "total" | awk '{print $2}')
 DISK_USAGE=$(df -h --total | grep "total" | awk '{print $3}')
 DISK_USAGE_PERCENT=$(df -h --total | grep "total" | awk '{print $5}')
 
+mapfile -t SPACE < <(df -hx devtmpfs -x tmpfs -x overlay | sed 1d)
+
+for DRIVE in "${SPACE[@]}"
+do
+  if [[ "${DRIVE}" != "${SPACE[0]}" ]] ; then
+    DRIVES="${DRIVES}\n                ${CG}"
+  fi
+
+  DRIVE_SOURCE=$(echo "${DRIVE}" | awk '{print $1}')
+  DRIVE_MOUNT_PATH=$(echo "${DRIVE}" | awk '{print $6}')
+  DRIVE_USAGE=$(echo "${DRIVE}" | awk '{print $3}')
+  DRIVE_USAGE_PERCENT=$(echo "${DRIVE}" | awk '{print $5}')
+  DRIVE_SIZE=$(echo "${DRIVE}" | awk '{print $2}')
+  DRIVES="${DRIVES}${CC}${DRIVE_SOURCE}${CD} → ${CM}${DRIVE_MOUNT_PATH} ${CG}${DRIVE_USAGE_PERCENT} (${DRIVE_USAGE} of ${DRIVE_SIZE})"
+done
+
 # ===================================================
 # Network
 # ===================================================
@@ -104,7 +122,7 @@ mapfile -t INTERFACES < <(ip -o link show | awk -F': ' '{print $2}' | grep -v -E
 for INTERFACE in "${INTERFACES[@]}"
 do
   if [[ "${INTERFACE}" != "${INTERFACES[0]}" ]] ; then
-    IP_V4_ADDRESSES="${IP_V4_ADDRESSES}\n              ${COLOR_DEFAULT}|${COLOR_VALUE} "
+    IP_V4_ADDRESSES="${IP_V4_ADDRESSES}\n                ${CG}"
   fi
 
   IP_V4_ADDRESSES="${IP_V4_ADDRESSES}${INTERFACE} $(ip addr show "${INTERFACE}" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')"
@@ -114,7 +132,7 @@ done
 for INTERFACE in "${INTERFACES[@]}"
 do
   if [[ "${INTERFACE}" != "${INTERFACES[0]}" ]] ; then
-    IP_V6_ADDRESSES="${IP_V6_ADDRESSES}\n              ${COLOR_DEFAULT}|${COLOR_VALUE} "
+    IP_V6_ADDRESSES="${IP_V6_ADDRESSES}\n                ${CG}"
   fi
 
   IP_V6_ADDRESSES="${IP_V6_ADDRESSES}${INTERFACE} $(ip addr show "${INTERFACE}" | grep -oP '(?<=inet6\s)\w+(:?:\w+){4}')"
@@ -125,21 +143,23 @@ done
 # ===================================================
 
 printf "\n"
-printf " %b%b\n\n" "${COLOR_HEAD}" "${SYSTEM_NAME}"
-printf " %bSYSTEM %b=======================================================================\n" "${COLOR_HEADLINE}" "${COLOR_DEFAULT}"
-printf " ${COLOR_INFO}DISTRIBUTION ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${DISTRIBUTION_NAME} ${DISTRIBUTION_VERSION} (${DISTRIBUTION_CODENAME})"
-printf " ${COLOR_INFO}CPU          ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${CPU_MODEL}- ${CPU_CORES} cores @ ${CPU_SPEED} MHz"
-printf " ${COLOR_INFO}DATE         ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${DATE}"
-printf " ${COLOR_INFO}TIMEZONE     ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${TIMEZONE}"
-printf " ${COLOR_INFO}UPTIME       ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${UPTIME}"
-printf " ${COLOR_INFO}PROCESSES    ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${PROCESSES_RUNNING} (running)"
-printf " %bUSAGE %b========================================================================\n" "${COLOR_HEADLINE}" "${COLOR_DEFAULT}"
-printf " ${COLOR_INFO}CPU          ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${CPU_USAGE}% (${CPU_LOAD_AVG})"
-printf " ${COLOR_INFO}MEMORY       ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${MEMORY_USAGE_PERCENT}% (${MEMORY_USAGE} MB of ${MEMORY_TOTAL} MB)"
-printf " ${COLOR_INFO}SWAP         ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${SWAP_USAGE_PERCENT} (${SWAP_USAGE} MB of ${SWAP_TOTAL} MB)"
-printf " ${COLOR_INFO}DISK         ${COLOR_DEFAULT}|${COLOR_VALUE} %s\n" "${DISK_USAGE_PERCENT} (${DISK_USAGE} of ${DISK_TOTAL})"
-printf " %bNETWORKS %b=====================================================================\n" "${COLOR_HEADLINE}" "${COLOR_DEFAULT}"
-printf " ${COLOR_INFO}IPv4         ${COLOR_DEFAULT}|${COLOR_VALUE} %b\n" "${IP_V4_ADDRESSES}"
-printf " ${COLOR_INFO}IPv6         ${COLOR_DEFAULT}|${COLOR_VALUE} %b\n" "${IP_V6_ADDRESSES}"
-printf " %b" "${COLOR_DEFAULT}"
+printf " %b%b\n\n" "${CY}" "${SYSTEM_NAME}"
+printf " %bSYSTEM %b\n" "${CR}" "${CD}"
+printf "${CD} ➤ ${CB}DISTRIBUTION ${CG}%s\n" "${DISTRIBUTION_NAME} ${DISTRIBUTION_VERSION} (${DISTRIBUTION_CODENAME})"
+printf "${CD} ➤ ${CB}CPU          ${CG}%s\n" "${CPU_MODEL}x ${CPU_CORES} cores"
+printf "${CD} ➤ ${CB}TIMEZONE     ${CG}%s\n" "${TIMEZONE}"
+printf "${CD} ➤ ${CB}DATE         ${CG}%s\n" "${DATE}"
+printf "${CD} ➤ ${CB}UPTIME       ${CG}%s\n" "${UPTIME}"
+printf " %bUSAGE %b\n" "${CR}" "${CD}"
+printf "${CD} ➤ ${CB}CPU          ${CG}%s\n" "${CPU_USAGE}% (${CPU_LOAD_AVG}) @ ${CPU_SPEED} MHz"
+printf "${CD} ➤ ${CB}MEMORY       ${CG}%s\n" "${MEMORY_USAGE_PERCENT}% (${MEMORY_USAGE} MB of ${MEMORY_TOTAL} MB)"
+printf "${CD} ➤ ${CB}SWAP         ${CG}%s\n" "${SWAP_USAGE_PERCENT} (${SWAP_USAGE} MB of ${SWAP_TOTAL} MB)"
+printf "${CD} ➤ ${CB}DISK         ${CG}%s\n" "${DISK_USAGE_PERCENT} (${DISK_USAGE} of ${DISK_TOTAL})"
+printf "${CD} ➤ ${CB}PROCESSES    ${CG}%s\n" "${PROCESSES_RUNNING} (running)"
+printf " %bSPACE %b\n" "${CR}" "${CD}"
+printf "${CD} ➤ ${CB}DRIVES       ${CG}%b\n" "${DRIVES}"
+printf " %bNETWORK %b\n" "${CR}" "${CD}"
+printf "${CD} ➤ ${CB}IPv4         ${CG}%b\n" "${IP_V4_ADDRESSES}"
+printf "${CD} ➤ ${CB}IPv6         ${CG}%b\n" "${IP_V6_ADDRESSES}"
+printf " %b" "${CD}"
 printf "\n"
