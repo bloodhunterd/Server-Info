@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+<a name="v1.1.1"></a>
+## [1.1.1](https://github.com/bloodhunterd/motd/releases/tag/1.1.1) &#9839; 03.02.2023
+
+* Fixed display of multiple IP's for a single interface.
+* Some colors adjusted.
+
 <a name="v1.1.0"></a>
 ## [1.1.0](https://github.com/bloodhunterd/motd/releases/tag/1.1.0) &#9839; 12.01.2023
 

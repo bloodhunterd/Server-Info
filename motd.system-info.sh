@@ -31,13 +31,14 @@ fi
 # Colors
 # ===================================================
 
-CD="\033[0m"    # Default
-CR="\033[1;31m" # Red
-CG="\033[0;32m" # Green
-CY="\033[1;33m" # Yellow
-CB="\033[1;34m" # Blue
-CM="\033[3;35m" # Magenta
-CC="\033[3;36m" # Cyan
+CD="\033[0m"     # Default
+CRB="\033[1;31m" # Red bold
+CG="\033[0;32m"  # Green
+CYB="\033[1;33m" # Yellow bold
+CYL="\033[3;33m" # Yellow light
+CBB="\033[1;34m" # Blue bold
+CML="\033[3;35m" # Magenta light
+CCL="\033[3;36m" # Cyan light
 
 # ===================================================
 # OS
@@ -96,7 +97,7 @@ DISK_TOTAL=$(df -h --total | grep "total" | awk '{print $2}')
 DISK_USAGE=$(df -h --total | grep "total" | awk '{print $3}')
 DISK_USAGE_PERCENT=$(df -h --total | grep "total" | awk '{print $5}')
 
-mapfile -t SPACE < <(df -hx devtmpfs -x tmpfs -x overlay | sed 1d)
+mapfile -t SPACE < <(df -hx devtmpfs -x tmpfs -x overlay -x squashfs | sed 1d)
 
 for DRIVE in "${SPACE[@]}"
 do
@@ -109,7 +110,7 @@ do
   DRIVE_USAGE=$(echo "${DRIVE}" | awk '{print $3}')
   DRIVE_USAGE_PERCENT=$(echo "${DRIVE}" | awk '{print $5}')
   DRIVE_SIZE=$(echo "${DRIVE}" | awk '{print $2}')
-  DRIVES="${DRIVES}${CC}${DRIVE_SOURCE}${CD} → ${CM}${DRIVE_MOUNT_PATH} ${CG}${DRIVE_USAGE_PERCENT} (${DRIVE_USAGE} of ${DRIVE_SIZE})"
+  DRIVES="${DRIVES}${CYL}${DRIVE_SOURCE}${CD} → ${CCL}${DRIVE_MOUNT_PATH} ${CG}${DRIVE_USAGE_PERCENT} (${DRIVE_USAGE} of ${DRIVE_SIZE})"
 done
 
 # ===================================================
@@ -122,20 +123,36 @@ mapfile -t INTERFACES < <(ip -o link show | awk -F': ' '{print $2}' | grep -v -E
 for INTERFACE in "${INTERFACES[@]}"
 do
   if [[ "${INTERFACE}" != "${INTERFACES[0]}" ]] ; then
-    IP_V4_ADDRESSES="${IP_V4_ADDRESSES}\n                ${CG}"
+    IP_V4="${IP_V4}\n                ${CG}"
   fi
 
-  IP_V4_ADDRESSES="${IP_V4_ADDRESSES}${INTERFACE} $(ip addr show "${INTERFACE}" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')"
+  mapfile -t IPS < <(ip addr show "${INTERFACE}" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+  INTERFACE_IPS=""
+  for IP in "${IPS[@]}"
+  do
+    INTERFACE_IPS="${INTERFACE_IPS} ${IP}"
+  done
+
+  IP_V4="${IP_V4}${INTERFACE}${INTERFACE_IPS}"
 done
 
 # IP V6
 for INTERFACE in "${INTERFACES[@]}"
 do
   if [[ "${INTERFACE}" != "${INTERFACES[0]}" ]] ; then
-    IP_V6_ADDRESSES="${IP_V6_ADDRESSES}\n                ${CG}"
+    IP_V6="${IP_V6}\n                ${CG}"
   fi
 
-  IP_V6_ADDRESSES="${IP_V6_ADDRESSES}${INTERFACE} $(ip addr show "${INTERFACE}" | grep -oP '(?<=inet6\s)\w+(:?:\w+){4}')"
+  mapfile -t IPS < <(ip addr show "${INTERFACE}" | grep -oP '(?<=inet6\s)\w+(:?:\w+){4}')
+
+  INTERFACE_IPS=""
+  for IP in "${IPS[@]}"
+  do
+    INTERFACE_IPS="${INTERFACE_IPS} ${IP}"
+  done
+
+  IP_V6="${IP_V6}${INTERFACE}${INTERFACE_IPS}"
 done
 
 # ===================================================
@@ -143,23 +160,23 @@ done
 # ===================================================
 
 printf "\n"
-printf " %b%b\n\n" "${CY}" "${SYSTEM_NAME}"
-printf " %bSYSTEM %b\n" "${CR}" "${CD}"
-printf "${CD} ➤ ${CB}DISTRIBUTION ${CG}%s\n" "${DISTRIBUTION_NAME} ${DISTRIBUTION_VERSION} (${DISTRIBUTION_CODENAME})"
-printf "${CD} ➤ ${CB}CPU          ${CG}%s\n" "${CPU_MODEL}x ${CPU_CORES} cores"
-printf "${CD} ➤ ${CB}TIMEZONE     ${CG}%s\n" "${TIMEZONE}"
-printf "${CD} ➤ ${CB}DATE         ${CG}%s\n" "${DATE}"
-printf "${CD} ➤ ${CB}UPTIME       ${CG}%s\n" "${UPTIME}"
-printf " %bUSAGE %b\n" "${CR}" "${CD}"
-printf "${CD} ➤ ${CB}CPU          ${CG}%s\n" "${CPU_USAGE}% (${CPU_LOAD_AVG}) @ ${CPU_SPEED} MHz"
-printf "${CD} ➤ ${CB}MEMORY       ${CG}%s\n" "${MEMORY_USAGE_PERCENT}% (${MEMORY_USAGE} MB of ${MEMORY_TOTAL} MB)"
-printf "${CD} ➤ ${CB}SWAP         ${CG}%s\n" "${SWAP_USAGE_PERCENT} (${SWAP_USAGE} MB of ${SWAP_TOTAL} MB)"
-printf "${CD} ➤ ${CB}DISK         ${CG}%s\n" "${DISK_USAGE_PERCENT} (${DISK_USAGE} of ${DISK_TOTAL})"
-printf "${CD} ➤ ${CB}PROCESSES    ${CG}%s\n" "${PROCESSES_RUNNING} (running)"
-printf " %bSPACE %b\n" "${CR}" "${CD}"
-printf "${CD} ➤ ${CB}DRIVES       ${CG}%b\n" "${DRIVES}"
-printf " %bNETWORK %b\n" "${CR}" "${CD}"
-printf "${CD} ➤ ${CB}IPv4         ${CG}%b\n" "${IP_V4_ADDRESSES}"
-printf "${CD} ➤ ${CB}IPv6         ${CG}%b\n" "${IP_V6_ADDRESSES}"
+printf " %b%b\n\n" "${CYB}" "${SYSTEM_NAME}"
+printf " %bSYSTEM %b\n" "${CRB}" "${CD}"
+printf "${CD} ➤ ${CBB}DISTRIBUTION ${CG}%s\n" "${DISTRIBUTION_NAME} ${DISTRIBUTION_VERSION} (${DISTRIBUTION_CODENAME})"
+printf "${CD} ➤ ${CBB}CPU          ${CG}%s\n" "${CPU_MODEL}x ${CPU_CORES} cores"
+printf "${CD} ➤ ${CBB}TIMEZONE     ${CG}%s\n" "${TIMEZONE}"
+printf "${CD} ➤ ${CBB}DATE         ${CG}%s\n" "${DATE}"
+printf "${CD} ➤ ${CBB}UPTIME       ${CG}%s\n" "${UPTIME}"
+printf " %bUSAGE %b\n" "${CRB}" "${CD}"
+printf "${CD} ➤ ${CBB}CPU          ${CG}%s\n" "${CPU_USAGE}% (${CPU_LOAD_AVG}) @ ${CPU_SPEED} MHz"
+printf "${CD} ➤ ${CBB}MEMORY       ${CG}%s\n" "${MEMORY_USAGE_PERCENT}% (${MEMORY_USAGE} MB of ${MEMORY_TOTAL} MB)"
+printf "${CD} ➤ ${CBB}SWAP         ${CG}%s\n" "${SWAP_USAGE_PERCENT} (${SWAP_USAGE} MB of ${SWAP_TOTAL} MB)"
+printf "${CD} ➤ ${CBB}DISK         ${CG}%s\n" "${DISK_USAGE_PERCENT} (${DISK_USAGE} of ${DISK_TOTAL})"
+printf "${CD} ➤ ${CBB}PROCESSES    ${CG}%s\n" "${PROCESSES_RUNNING} (running)"
+printf " %bSPACE %b\n" "${CRB}" "${CD}"
+printf "${CD} ➤ ${CBB}DRIVES       ${CG}%b\n" "${DRIVES}"
+printf " %bNETWORK %b\n" "${CRB}" "${CD}"
+printf "${CD} ➤ ${CBB}IPv4         ${CG}%b\n" "${IP_V4}"
+printf "${CD} ➤ ${CBB}IPv6         ${CG}%b\n" "${IP_V6}"
 printf " %b" "${CD}"
 printf "\n"

@@ -7,6 +7,9 @@
 
 MotD displays system information as *Message of the Day banner* at user login.
 
+:construction: At the moment only **None** default locale aka **en_US** is supportet.
+Other locales might work.
+
 ## Deployment
 
 The script `motd.system-info.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time the user logs on.
