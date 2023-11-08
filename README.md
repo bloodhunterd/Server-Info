@@ -1,18 +1,16 @@
-[![Release](https://img.shields.io/github/v/release/bloodhunterd/motd?style=for-the-badge)](https://github.com/bloodhunterd/motd/releases)
-[![License](https://img.shields.io/github/license/bloodhunterd/motd?style=for-the-badge)](https://github.com/bloodhunterd/motd/blob/master/LICENSE)
+[![Release](https://img.shields.io/github/v/release/bloodhunterd/motd?style=for-the-badge)](https://gitlab.com/bloodhunterd-labs/tools/Server-Info/-/releases)
+[![License](https://img.shields.io/github/license/bloodhunterd/motd?style=for-the-badge)](https://gitlab.com/bloodhunterd-labs/tools/Server-Info/-/blob/master/LICENSE)
 
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/bloodhunterd)
+# Server Info
 
-# MotD
-
-MotD displays system information as *Message of the Day banner* at user login.
+The script displays system information at user login.
 
 :construction: At the moment only **None** default locale aka **en_US** is supportet.
 Other locales might work.
 
 ## Deployment
 
-The script `motd.system-info.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time the user logs on.
+The script `server-info.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time the user logs on.
 
 ### Requirements
 
@@ -20,7 +18,7 @@ If not already installed, the `dnsutils` package is needed to resolve IP to FQDN
 
 ## Configuration
 
-MotD can be customized. All that is required is to create a file with the name `motd.system-info.conf`.
+MotD can be customized. All that is required is to create a file with the name `server-info.conf`.
 
 The following settings are possible:
 
@@ -42,11 +40,15 @@ Please note the [changelog](https://github.com/bloodhunterd/motd/blob/master/CHA
 
 ## Authors
 
-* [BloodhunterD](https://github.com/bloodhunterd)
+* [BloodhunterD](https://gitlab.com/BloodhunterD)
 
 ## License
 
-This project is licensed under the MIT - see [LICENSE.md](https://github.com/bloodhunterd/motd/blob/master/LICENSE) file for details.
+This project is licensed under the MIT - see [LICENSE.md](https://gitlab.com/bloodhunterd-labs/tools/Server-Info/-/blob/master/LICENSE) file for details.
+
+## Funding
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/bloodhunterd)
 
 *[IP]: Internet Protocol
 *[FQDN]: Fully Qualified Domain Name

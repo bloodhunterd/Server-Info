@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This file ist part of the MotD project, see https://github.com/bloodhunterd/MotD.
+# This file ist part of the MotD project, see https://gitlab.com/bloodhunterd-labs/tools/Server-Info.
 # © 2023 by BloodhunterD <bloodhunterd@bloodhunterd.com>
 
 # ===================================================
@@ -17,10 +17,10 @@ fi
 # Configuration file and fallbacks
 # ===================================================
 
-CONFIG_FILE="${DIR}/motd.system-info.conf"
+CONFIG_FILE="${DIR}/server-info.conf"
 
 if test -f "${CONFIG_FILE}"; then
-  . "${DIR}/motd.system-info.conf"
+  . "${DIR}/server-info.conf"
 fi
 
 if [ -z ${DATE_FORMAT+x} ]; then
